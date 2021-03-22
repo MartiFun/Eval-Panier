@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PlatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 return view('home');
+});
+
+Route::get('home', function () {
+  return view('home');
 })->middleware('auth');
+
+Route::resource('plats', PlatController::class)->middleware('auth');
+Route::delete('films/force/{id}', [PlatController::class, 'forceDestroy'])->name('films.force.destroy');

@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Plat extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['nom', 'prix', 'type', 'vegetarien', 'poid', 'origine'];
+
 }
