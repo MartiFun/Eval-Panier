@@ -23,4 +23,3 @@ Route::get('home', function () {
 })->middleware('auth');
 
 Route::resource('plats', PlatController::class)->middleware('auth');
-Route::delete('films/force/{id}', [PlatController::class, 'forceDestroy'])->name('films.force.destroy');

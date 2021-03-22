@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Plat;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\Plat as PlatRequest;
 
 class PlatController extends Controller
 {
@@ -14,8 +15,8 @@ class PlatController extends Controller
      */
     public function index()
     {
-      //$plats = Plat::all();
-      return view('welcome', compact('plats'));
+      $plats = Plat::paginate(5);
+      return view('plat.index', compact('plats'));
 
     }
 
@@ -26,7 +27,7 @@ class PlatController extends Controller
      */
     public function create()
     {
-        //
+      return view('plat.create');
     }
 
     /**
@@ -35,9 +36,10 @@ class PlatController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PlatRequest $platRequest)
     {
-        //
+      Plat::create($platRequest->all());
+      return redirect()->route('plat.index')->with('info', 'Le plat a bien été créé');
     }
 
     /**
@@ -57,9 +59,9 @@ class PlatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Plat $plat)
     {
-        //
+      return view('plat.edit', compact('plat'));
     }
 
     /**
@@ -69,9 +71,10 @@ class PlatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PlatRequest $platRequest, Plat $plat)
     {
-        //
+      $plat->update($platRequest->all());
+      return redirect()->route('plats.index')->with('info', 'Le plat a bien été modifié');
     }
 
     /**
@@ -80,8 +83,10 @@ class PlatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Plat $plat)
     {
-        //
+      $plat->delete();
+      return back()->with('info', 'Le plat a bien été supprimé dans la base de données.');
+
     }
 }
