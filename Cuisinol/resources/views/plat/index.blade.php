@@ -9,6 +9,14 @@
     <div class="card">
       <header class="card-header">
           <p class="card-header-title">Plats</p>
+          <div class="select">
+            <select onchange="window.location.href = this.value">
+                <option value="{{ route('plats.index') }}" @unless($slug) selected @endunless>Tout types</option>
+                @foreach($types as $type)
+                    <option value="{{ route('plats.type', $type->slug) }}" {{ $slug == $type->slug ? 'selected' : '' }}>{{ $type->nom }}</option>
+                @endforeach
+            </select>
+        </div>
           <a class="button is-info" href="{{ route('plats.create') }}">Créer un Plat</a>
       </header>
         <div class="card-content">
@@ -27,7 +35,7 @@
                         @foreach($plats as $plat)
                             <tr>
                                 <td>{{ $plat->id }}</td>
-                                <td><strong>{{ $plat->nom }}</strong>{{ $plat->vegetarien }}</br>Prix : {{ $plat->prix }} {{ $plat->type }} {{ $plat->poid }}</br>Origine : {{ $plat->origine }}</td>
+                                <td><strong>{{ $plat->nom }}</strong> {{ $plat->vegetarien->nom }}</br>Prix : {{ $plat->prix }}$  {{ $plat->type->nom }}  {{ $plat->poid }} g</br>Origine : {{ $plat->origine }}</td>
                                 <td><a class="button is-warning" href="{{ route('plats.edit', $plat->id) }}">Modifier</a></td>
                                 <td>
                                     <form action="{{ route('plats.destroy', $plat->id) }}" method="post">

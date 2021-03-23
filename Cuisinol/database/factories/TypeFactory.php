@@ -2,18 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Plat;
+use App\Models\Type;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
-class PlatFactory extends Factory
+class TypeFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Plat::class;
+    protected $model = Type::class;
 
     /**
      * Define the model's default state.
@@ -22,8 +21,10 @@ class PlatFactory extends Factory
      */
     public function definition()
     {
-        return [
-
-        ];
+      $name = $this->faker->word();
+      return [
+          'nom' => $name,
+          'slug' => $name,
+      ];
     }
 }

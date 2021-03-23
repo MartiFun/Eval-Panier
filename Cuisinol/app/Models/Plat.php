@@ -9,6 +9,15 @@ class Plat extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'prix', 'type', 'vegetarien', 'poid', 'origine'];
+    protected $fillable = ['nom', 'prix', 'type_id', 'vegetarien_id', 'poid', 'origine'];
 
+    public function type()
+    {
+      return $this->belongsTo(Type::class);
+    }
+
+    public function vegetarien()
+    {
+      return $this->belongsTo(Vegetarien::class);
+    }
 }

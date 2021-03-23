@@ -22,4 +22,6 @@ Route::get('home', function () {
   return view('home');
 })->middleware('auth');
 
-Route::resource('plats', PlatController::class)->middleware('auth');
+Route::resource('plats', PlatController::class);
+
+Route::get('type/{slug}/plats', [PlatController::class, 'index'])->name('plats.type');

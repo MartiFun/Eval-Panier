@@ -19,6 +19,26 @@
                         @enderror
                     </div>
                     <div class="field">
+                       <label class="label">Types</label>
+                       <div class="select">
+                           <select name="type_id">
+                               @foreach($types as $type)
+                                   <option value="{{ $type->id }}">{{ $type->nom }}</option>
+                               @endforeach
+                           </select>
+                       </div>
+                   </div>
+                   <div class="field">
+                      <label class="label">Vegetariens</label>
+                      <div class="select">
+                          <select name="vegetarien_id">
+                              @foreach($vegetariens as $vegetarien)
+                                  <option value="{{ $vegetarien->id }}">{{ $vegetarien->nom }}</option>
+                              @endforeach
+                          </select>
+                      </div>
+                  </div>
+                    <div class="field">
                         <label class="label">prix</label>
                         <div class="control">
                           <input class="input" type="number" name="prix" value="{{ old('prix') }}" min="0" max="500">

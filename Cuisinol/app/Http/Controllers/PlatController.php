@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Plat;
+use App\Models\{Plat, Type, Vegetarien};
 
 use Illuminate\Http\Request;
 use App\Http\Requests\Plat as PlatRequest;
@@ -13,10 +13,16 @@ class PlatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($slug = null)
     {
-      $plats = Plat::paginate(5);
-      return view('plat.index', compact('plats'));
+
+      // $plats = Plat::paginate(5);
+      // return view('plat.index', compact('plats'));
+
+      $query = $slug ? Type::whereSlug($slug)->firstOrFail()->plats() : Plat::query();
+      $plats = $query->oldest('nom')->paginate(5);
+      $types = Type::all();
+      return view('plat.index', compact('plats', 'types', 'slug'));
 
     }
 
@@ -27,7 +33,10 @@ class PlatController extends Controller
      */
     public function create()
     {
-      return view('plat.create');
+      $types = Type::all();
+      $vegetariens = Vegetarien::all();
+
+      return view('plat.create', compact('types', 'vegetariens'));
     }
 
     /**
@@ -38,8 +47,9 @@ class PlatController extends Controller
      */
     public function store(PlatRequest $platRequest)
     {
-      Plat::create($platRequest->all());
-      return redirect()->route('plat.index')->with('info', 'Le plat a bien été créé');
+      dd('eee');
+      // Plat::create($platRequest->all());
+      // return redirect()->route('plat.index')->with('info', 'Le plat a bien été créé');
     }
 
     /**

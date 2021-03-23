@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePlatsTable extends Migration
+class CreateVegetariensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,11 @@ class CreatePlatsTable extends Migration
      */
     public function up()
     {
-      Schema::disableForeignKeyConstraints();
-        Schema::create('plats', function (Blueprint $table) {
+        Schema::create('vegetariens', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->string('prix');
-            $table->string('type');
-            $table->string('vegetarien');
-            $table->string('poid');
-            $table->string('origine');
+            $table->string('slug');
             $table->timestamps();
-            $table->softDeletes();
-
         });
     }
 
@@ -35,6 +28,6 @@ class CreatePlatsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plats');
+        Schema::dropIfExists('vegetariens');
     }
 }
