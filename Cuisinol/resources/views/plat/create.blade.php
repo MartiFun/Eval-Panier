@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+  @if(session()->has('info'))
+    <div class="notification is-success">
+      {{ session('info') }}
+    </div>
+  @endif
     <div class="card">
         <header class="card-header">
             <p class="card-header-title">Création d'un plat</p>
@@ -37,6 +42,15 @@
                               @endforeach
                           </select>
                       </div>
+                  </div>
+                  <div class="field">
+                      <label class="label">Origine</label>
+                      <div class="control">
+                        <input class="input @error('origine') is-danger @enderror" type="text" name="origine" value="{{ old('origine') }}" placeholder="origine du plat">
+                      </div>
+                      @error('origine')
+                          <p class="help is-danger">{{ $message }}</p>
+                      @enderror
                   </div>
                     <div class="field">
                         <label class="label">prix</label>

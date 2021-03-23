@@ -5,6 +5,7 @@ use App\Models\{Plat, Type, Vegetarien};
 
 use Illuminate\Http\Request;
 use App\Http\Requests\Plat as PlatRequest;
+use Illuminate\Support\Facades\Route;
 
 class PlatController extends Controller
 {
@@ -22,6 +23,7 @@ class PlatController extends Controller
       $query = $slug ? Type::whereSlug($slug)->firstOrFail()->plats() : Plat::query();
       $plats = $query->oldest('nom')->paginate(5);
       $types = Type::all();
+      // $ingredient = Ingredient::all();
       return view('plat.index', compact('plats', 'types', 'slug'));
 
     }
@@ -47,9 +49,8 @@ class PlatController extends Controller
      */
     public function store(PlatRequest $platRequest)
     {
-      dd('eee');
-      // Plat::create($platRequest->all());
-      // return redirect()->route('plat.index')->with('info', 'Le plat a bien été créé');
+      $plat = Plat::create($platRequest->all());
+      return redirect()->back()->with('info', 'Le plat a bien été créé');
     }
 
     /**
@@ -85,6 +86,12 @@ class PlatController extends Controller
     {
       $plat->update($platRequest->all());
       return redirect()->route('plats.index')->with('info', 'Le plat a bien été modifié');
+
+      $film->update($filmRequest->all());
+      $film->types()->sync($filmRequest->cats);
+      $film->actors()->sync($filmRequest->acts);
+      return redirect()->route('films.index')->with('info', 'Le film a bien été modifié');
+
     }
 
     /**

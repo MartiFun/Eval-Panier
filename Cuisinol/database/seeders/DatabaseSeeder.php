@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\{ Plat, Type, Vegetarien };
+use App\Models\{ Plat, Type, Vegetarien, Ingredient, Ingredient_Plat };
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -54,12 +54,27 @@ class DatabaseSeeder extends Seeder
           'Africain',
         ];
 
+        $ingredients = [
+          'Oeuf',
+          'Farine',
+          'Sucre',
+          'Ananas',
+          'Tomate',
+          'Fromage',
+          'Fraise',
+          'Beure',
+        ];
+
         foreach($types as $type) {
             Type::create(['nom' => $type, 'slug' => Str::slug($type)]);
         }
 
         foreach($vegetariens as $vegetarien) {
             Vegetarien::create(['nom' => $vegetarien, 'slug' => Str::slug($vegetarien)]);
+        }
+
+        foreach($ingredients as $ingredient) {
+            Ingredient::create(['nom' => $ingredient, 'slug' => Str::slug($ingredient)]);
         }
 
         foreach(range(1, 10) as $index)

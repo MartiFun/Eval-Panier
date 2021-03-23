@@ -34,8 +34,19 @@
                     <tbody>
                         @foreach($plats as $plat)
                             <tr>
+                                @php
+                                  // $plat->with('ingredients')->get();
+                                @endphp
                                 <td>{{ $plat->id }}</td>
-                                <td><strong>{{ $plat->nom }}</strong> {{ $plat->vegetarien->nom }}</br>Prix : {{ $plat->prix }}$  {{ $plat->type->nom }}  {{ $plat->poid }} g</br>Origine : {{ $plat->origine }}</td>
+                                <td><strong>{{ $plat->nom}}</strong> {{ $plat->vegetarien->nom }}</br>Prix : {{ $plat->prix }}$  {{ $plat->type->nom }}  {{ $plat->poid }} g</br>Origine : {{ $plat->origine }}</td>
+                                <td>
+                                  <p>Ingredients :</p>
+                                  <ul>
+                                    @foreach($plat->ingredients as $ingredient)
+                                      <li>{{ $ingredient->nom }}</li>
+                                    @endforeach
+                                  </ul>
+                                </td>
                                 <td><a class="button is-warning" href="{{ route('plats.edit', $plat->id) }}">Modifier</a></td>
                                 <td>
                                     <form action="{{ route('plats.destroy', $plat->id) }}" method="post">

@@ -26,10 +26,10 @@ class Plat extends FormRequest
         return [
           'nom' => ['required', 'string', 'max:100'],
           'prix' => ['required', 'numeric', 'min:0', 'max:500'],
-          'type' => ['required', 'string', 'max:100'],
-          'vegetarien' => ['string', 'max:100'],
+          'type_id' => ['required'],
+          'vegetarien_id' => ['required'],
+          'origine' => ['required', 'string', 'max:100'],
           'poid' => ['required', 'string', 'max:100'],
-          'poid' => ['required', 'numeric', 'min:0', 'max:5000'],
         ];
     }
 }
