@@ -40,7 +40,6 @@
             </form>
 
         </div>
-          <a class="button is-info" href="{{ route('plats.create') }}">Créer un Plat</a>
       </header>
         <div class="card-content">
             <div class="content">
@@ -70,12 +69,10 @@
                                     @endforeach
                                   </ul>
                                 </td>
-                                <td><a class="button is-warning" href="{{ route('plats.edit', $plat->id) }}">Modifier</a></td>
                                 <td>
-                                    <form action="{{ route('plats.destroy', $plat->id) }}" method="post">
+                                    <form action="{{ route('plats.index', $plat->id) }}" method="post">
                                         @csrf
-                                        @method('DELETE')
-                                        <button class="button is-danger" type="submit">Supprimer</button>
+                                        <button class="button is-danger" type="submit">ajouter au panier</button>
                                     </form>
                                 </td>
                             </tr>

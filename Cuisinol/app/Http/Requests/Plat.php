@@ -30,6 +30,7 @@ class Plat extends FormRequest
           'vegetarien_id' => ['required'],
           'origine' => ['required', 'string', 'max:100'],
           'poid' => ['required', 'string', 'max:100'],
+          'ingrs[]' => [''],
         ];
     }
 }

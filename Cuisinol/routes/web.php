@@ -25,3 +25,6 @@ Route::get('home', function () {
 Route::resource('plats', PlatController::class);
 
 Route::get('type/{slug}/plats', [PlatController::class, 'index'])->name('plats.type');
+Route::get('ingredient/{slug}/plats', [PlatController::class, 'index'])->name('plats.ingredient');
+Route::get('nom/plats', [PlatController::class, 'index'])->name('plats.nom');
+Route::get('prix/plats', [PlatController::class, 'index'])->name('plats.prix');

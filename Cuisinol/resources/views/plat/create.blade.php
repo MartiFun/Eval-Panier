@@ -71,6 +71,16 @@
                         @enderror
                     </div>
                     <div class="field">
+                      <label class="label">Ingredients</label>
+                      <div class="select is-multiple">
+                          <select name="ingrs[]" multiple>
+                              @foreach($ingredients as $ingredient)
+                                  <option value="{{ $ingredient->id }}" {{ in_array($ingredient->id, old('ingrs') ?: []) ? 'selected' : '' }}>{{ $ingredient->nom }}</option>
+                              @endforeach
+                          </select>
+                      </div>
+                    </div>
+                    <div class="field">
                         <div class="control">
                           <button class="button is-link">Envoyer</button>
                         </div>

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\{Plat, Type, Vegetarien};
+use App\Models\{Plat, Type, Vegetarien, Ingredient};
 
 use Illuminate\Http\Request;
 use App\Http\Requests\Plat as PlatRequest;
@@ -14,17 +14,52 @@ class PlatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($slug = null)
+    public function index($slug = null, Request $request)
     {
 
-      // $plats = Plat::paginate(5);
-      // return view('plat.index', compact('plats'));
-
-      $query = $slug ? Type::whereSlug($slug)->firstOrFail()->plats() : Plat::query();
-      $plats = $query->oldest('nom')->paginate(5);
+      $ingredients = Ingredient::all();
       $types = Type::all();
-      // $ingredient = Ingredient::all();
-      return view('plat.index', compact('plats', 'types', 'slug'));
+      $model = null;
+      $query = Plat::query();
+      $plats = null;
+      if($slug || count($request->request) > 0) {
+          if(Route::currentRouteName() == 'plats.ingredient') {
+            $model = new Ingredient;
+            $query = $model ? $model->whereSlug($slug)->firstOrFail()->plats() : Plat::query();
+            $plats = $query->oldest('nom')->get();
+          }
+          else if (Route::currentRouteName() == 'plats.type') {
+            $model = new Type;
+            $query = $model ? $model->whereSlug($slug)->firstOrFail()->plats() : Plat::query();
+            $plats = $query->oldest('nom')->get();
+          }
+          else if ($request->input('nom') != null){
+            $plats = $query->where('nom', 'like', '%'.$request->nom.'%')->oldest('nom')->get();
+          }
+          else if ($request->input('prixmin') != null || $request->input('prixmax') != null){
+            if ($request->input('prixmin') == null) {
+              $plats = $query->where('prix', '<', intval($request->input('prixmax')))->oldest('nom')->get();
+            }elseif ($request->input('prixmax') == null) {
+              $plats = $query->where('prix', '>', intval($request->input('prixmin')))->oldest('nom')->get();
+            }else {
+              $plats = $query->where('prix', '>', intval($request->input('prixmin')))
+                             ->where('prix', '<', intval($request->input('prixmax')))->oldest('nom')->get();
+            }
+          }
+          else {
+            $plats = $query->oldest('nom')->get();
+          }
+      }else{
+        $plats = $query->oldest('nom')->get();
+      }
+
+      //dd($plats);
+      if (auth()->user()->is_admin == 1) {
+        return view('plat.index', compact('plats', 'ingredients', 'slug', 'types'));
+      }
+      else {
+        return view('plat.indexUser', compact('plats', 'ingredients', 'slug', 'types'));
+      }
 
     }
 
@@ -37,8 +72,9 @@ class PlatController extends Controller
     {
       $types = Type::all();
       $vegetariens = Vegetarien::all();
+      $ingredients = Ingredient::all();
 
-      return view('plat.create', compact('types', 'vegetariens'));
+      return view('plat.create', compact('types', 'vegetariens', 'ingredients'));
     }
 
     /**
@@ -50,6 +86,7 @@ class PlatController extends Controller
     public function store(PlatRequest $platRequest)
     {
       $plat = Plat::create($platRequest->all());
+      $plat->ingredients()->attach($platRequest->ingrs);
       return redirect()->back()->with('info', 'Le plat a bien été créé');
     }
 
@@ -72,7 +109,10 @@ class PlatController extends Controller
      */
     public function edit(Plat $plat)
     {
-      return view('plat.edit', compact('plat'));
+      $types = Type::all();
+      $vegetariens = Vegetarien::all();
+      $ingredients = Ingredient::all();
+      return view('plat.edit', compact('plat', 'types', 'vegetariens', 'ingredients'));
     }
 
     /**
@@ -85,13 +125,10 @@ class PlatController extends Controller
     public function update(PlatRequest $platRequest, Plat $plat)
     {
       $plat->update($platRequest->all());
-      return redirect()->route('plats.index')->with('info', 'Le plat a bien été modifié');
-
-      $film->update($filmRequest->all());
-      $film->types()->sync($filmRequest->cats);
-      $film->actors()->sync($filmRequest->acts);
-      return redirect()->route('films.index')->with('info', 'Le film a bien été modifié');
-
+      $plat->ingredients()->sync($platRequest->ingrs);
+      $plat->types()->sync($platRequest->type_id);
+      $plat->vegetariens()->sync($platRequest->vegetarien_id);
+      return redirect()->back()->with('info', 'Le plat a bien été modifié');
     }
 
     /**
