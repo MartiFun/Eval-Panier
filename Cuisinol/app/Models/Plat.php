@@ -26,4 +26,9 @@ class Plat extends Model
       return $this->belongsToMany(Ingredient::class);
     }
 
+    public function users()
+    {
+      return $this->belongsToMany(User::class);
+    }
+
 }

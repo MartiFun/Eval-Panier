@@ -16,15 +16,20 @@ use App\Http\Controllers\PlatController;
 
 Route::get('/', function () {
 return view('home');
-});
+})->middleware('auth');
 
 Route::get('home', function () {
   return view('home');
 })->middleware('auth');
 
-Route::resource('plats', PlatController::class);
+Route::resource('plats', PlatController::class)->middleware('auth');;
 
-Route::get('type/{slug}/plats', [PlatController::class, 'index'])->name('plats.type');
-Route::get('ingredient/{slug}/plats', [PlatController::class, 'index'])->name('plats.ingredient');
-Route::get('nom/plats', [PlatController::class, 'index'])->name('plats.nom');
-Route::get('prix/plats', [PlatController::class, 'index'])->name('plats.prix');
+Route::get('type/{slug}/plats', [PlatController::class, 'index'])->name('plats.type')->middleware('auth');;
+Route::get('ingredient/{slug}/plats', [PlatController::class, 'index'])->name('plats.ingredient')->middleware('auth');;
+Route::get('nom/plats', [PlatController::class, 'index'])->name('plats.nom')->middleware('auth');;
+Route::get('prix/plats', [PlatController::class, 'index'])->name('plats.prix')->middleware('auth');;
+
+// Route::get('addPanier', [PlatController::class, 'addPanier'])->name('plats.addPanier')->middleware('auth');;
+Route::get('panier', [PlatController::class, 'showPanier'])->name('plats.panier')->middleware('auth');;
+Route::delete('destroyPanier', [PlatController::class, 'destroyPanier'])->name('plats.destroyPanier')->middleware('auth');;
+Route::post('updatePanier', [PlatController::class, 'updatePanier'])->name('plats.updatePanier')->middleware('auth');;

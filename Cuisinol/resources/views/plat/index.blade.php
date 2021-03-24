@@ -41,6 +41,7 @@
 
         </div>
           <a class="button is-info" href="{{ route('plats.create') }}">Créer un Plat</a>
+          <a class="button is-info" href="{{ route('plats.panier') }}">Panier</a>
       </header>
         <div class="card-content">
             <div class="content">

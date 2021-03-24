@@ -40,6 +40,7 @@
             </form>
 
         </div>
+        <a class="button is-info" href="{{ route('plats.panier') }}">Panier</a>
       </header>
         <div class="card-content">
             <div class="content">
@@ -70,7 +71,7 @@
                                   </ul>
                                 </td>
                                 <td>
-                                    <form action="{{ route('plats.index', $plat->id) }}" method="post">
+                                    <form action="{{ route('plats.show', $plat->id) }}" method="GET">
                                         @csrf
                                         <button class="button is-danger" type="submit">ajouter au panier</button>
                                     </form>
