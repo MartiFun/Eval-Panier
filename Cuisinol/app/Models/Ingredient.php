@@ -9,6 +9,8 @@ class Ingredient extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['nom', 'slug'];
+
     public function plats()
     {
       return $this->belongsToMany(Plat::class);

@@ -1,0 +1,55 @@
+.header{
+ border: 0 !important;
+ margin: 30px !important;
+ border-radius: 10px !important;
+ display: flex;
+ padding: 25px;
+ flex-wrap: wrap;
+ .research{
+  margin: 10px;
+  width: 70%;
+  max-width: 200px;
+  height: 100px;
+  display: flex;
+  align-items: left;
+  flex-direction: column;
+  justify-content: space-around;
+ }
+ .field{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+ }
+ .selects{
+  margin: 10px;
+  width: 70%;
+  max-width: 200px;
+  height: 100px;
+  display: flex;
+  align-items: left;
+  flex-direction: column;
+  justify-content: space-around;
+  select{
+   width: 200px;
+  }
+ }
+ .price{
+  margin: 10px;
+  width: 100%;
+  max-width: 420px;
+  height: 200px;
+  display: flex;
+  align-items: left;
+  flex-direction: column;
+  justify-content: space-around;
+ }
+}
+
+h2{
+ width: 20%;
+}
+
+.card{
+ border: 0;
+}

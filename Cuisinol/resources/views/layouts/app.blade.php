@@ -48,6 +48,13 @@
                                 </li>
                             @endif
                         @else
+                          @if (auth()->user()->is_admin == 1)
+                            <li><a class="button is-info" href="{{ route('plats.create') }}">Créer un Plat</a></li>
+                            <li>&nbsp;&nbsp;</li>
+                            <li><a class="button is-info" href="{{ route('plats.admin') }}">admin</a></li>
+                          @else
+                            <li><a class="button is-info" href="{{ route('paniers.index') }}">Panier</a></li>
+                          @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}

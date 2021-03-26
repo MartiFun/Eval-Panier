@@ -61,7 +61,7 @@ class DatabaseSeeder extends Seeder
               ],
               [
                 "nom"=> "Luke Burger",
-                "ingredients"=> [3, 2, 4],
+                "ingredients"=> [2, 4],
                 "origines"=> 1,
                 "vegetariens" => 3,
                 "types" => 3,
@@ -97,7 +97,7 @@ class DatabaseSeeder extends Seeder
               ],
               [
                 "nom"=> "The Chewbacca",
-                "ingredients"=> [3, 6, 1, 2, 2, 2],
+                "ingredients"=> [6, 1, 2, 2, 2],
                 "origines"=> 4,
                 "vegetariens" => 2,
                 "types" => 3,
@@ -106,7 +106,7 @@ class DatabaseSeeder extends Seeder
               ],
               [
                 "nom"=> "Dark Vador Burger",
-                "ingredients"=> [3, 6, 5, 1, 2, 4],
+                "ingredients"=> [6, 5, 2, 4],
                 "origines"=> 5,
                 "vegetariens" => 2,
                 "types" => 3,

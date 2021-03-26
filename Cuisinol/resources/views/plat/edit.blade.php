@@ -7,9 +7,8 @@
         </header>
         <div class="card-content">
             <div class="content">
-                <form action="{{ route('plats.update', $plat->id) }}" method="POST">
+                <form action="{{ route('plats.updatePlat', $plat->id) }}" method="POST">
                     @csrf
-                    @method('POST')
                     <div class="field">
                         <label class="label">Nom</label>
                         <div class="control">

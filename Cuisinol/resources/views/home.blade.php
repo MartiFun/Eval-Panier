@@ -19,7 +19,12 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    @if (auth()->user()->is_admin == 1)
+                      <li><a class="button is-info" href="{{ route('plats.create') }}">Créer un Plat</a></li>
+                      <li><a class="button is-info" href="{{ route('plats.index') }}">carte des plats</a></li>
+                    @else
+                      <li><a class="button is-info" href="{{ route('plats.index') }}">carte des plats</a></li>
+                    @endif
                 </div>
             </div>
         </div>

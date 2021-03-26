@@ -7,10 +7,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Plat as PlatRequest;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class PlatController extends Controller
 {
 
+    //affiche les plats
     public function index($slug = null, Request $request)
     {
       //recupere les données utiles
@@ -71,7 +73,7 @@ class PlatController extends Controller
 
     }
 
-
+    //affichage de la page de creation d'un plat
     public function create()
     {
       $types = Type::all();
@@ -81,7 +83,7 @@ class PlatController extends Controller
       return view('plat.create', compact('types', 'vegetariens', 'ingredients'));
     }
 
-
+    //store un plat
     public function store(PlatRequest $platRequest)
     {
       $plat = Plat::create($platRequest->all());
@@ -89,50 +91,7 @@ class PlatController extends Controller
       return redirect()->back()->with('info', 'Le plat a bien été créé');
     }
 
-
-    public function show(Plat $plat)
-    {
-      $query = User::query()->where('id', '=', ''.auth()->user()->id.'');
-      $users = $query->with('plats')->get();
-      $exist = false;
-
-      foreach ($users[0]->plats as $platEx) {
-        if ($platEx->id == $plat->id) {
-          $platExQ = DB::table('plat_user')->where("plat_id", "=", $plat->id)->first();
-          // dd($platExQ->quantite);
-          $exist = true;
-          $plat->users()->updateExistingPivot(auth()->user()->id , ['quantite' => intval($platExQ->quantite)+1]);
-        }
-      }
-      if ($exist === false) {
-        $plat->users()->attach(auth()->user()->id, ['quantite' => '1']);
-      }
-
-      return redirect()->back()->with('info', 'Le plat a bien été ajouté au panier');
-    }
-
-    public function updatePanier(Plat $plat)
-    {
-      $plat = Plat::all()->where("id", "=", array_keys(request()->all())[2])->first();
-      $plat->users()->updateExistingPivot(auth()->user()->id , ['quantite' => intval(request()->quantite)]);
-      return redirect()->back()->with('info', 'Le plat a bien été ajouté au panier');
-    }
-
-
-    public function showPanier()
-    {
-      $query = User::query()->where('id', '=', ''.auth()->user()->id.'');
-      $users = $query->with('plats')->get();
-      return view('plat.panier', compact('users'));
-    }
-
-    public function destroyPanier(Plat $plat)
-    {
-      $plat = Plat::all()->where("id", "=", array_keys(request()->all())[2])->first();
-      $plat->users()->detach(auth()->user()->id);
-      return back()->with('info', 'Le plat a bien été supprimé du panier.');
-    }
-
+    //affiche la modif d'un plat
     public function edit(Plat $plat)
     {
       $types = Type::all();
@@ -141,8 +100,9 @@ class PlatController extends Controller
       return view('plat.edit', compact('plat', 'types', 'vegetariens', 'ingredients'));
     }
 
-    public function update(PlatRequest $platRequest, Plat $plat)
+    public function updatePlat(PlatRequest $platRequest, Plat $plat)
     {
+      dd($platRequest);
       // $plat->update($platRequest->all());
       // $plat->ingredients()->sync($platRequest->ingrs);
       // $plat->types()->sync($platRequest->type_id);
@@ -160,4 +120,30 @@ class PlatController extends Controller
       return back()->with('info', 'Le plat a bien été supprimé dans la base de données.');
     }
 
+    public function storeIngredient(Request $request)
+    {
+      $request->validate([
+            'ingredient'=> ['required', 'string', 'max:100'],
+            ]);
+      Ingredient::create(['nom' => $request->ingredient, 'slug' => Str::slug($request->ingredient)]);
+      return back()->with('info', 'L\'ingredient a bien été ajouté dans la base de données.');
+    }
+
+    public function storeType(Request $request)
+    {
+      $request->validate([
+            'type'=> ['required', 'string', 'max:100'],
+            ]);
+      Type::create(['nom' => $request->type, 'slug' => Str::slug($request->type)]);
+      return back()->with('info', 'Le type de plat a bien été ajouté dans la base de données.');
+    }
+
+    public function storeVegetarien(Request $request)
+    {
+      $request->validate([
+            'vegetarien'=> ['required', 'string', 'max:100'],
+            ]);
+      Vegetarien::create(['nom' => $request->vegetarien, 'slug' => Str::slug($request->vegetarien)]);
+      return back()->with('info', 'Le type de nouriture a bien été ajouté dans la base de données.');
+    }
 }

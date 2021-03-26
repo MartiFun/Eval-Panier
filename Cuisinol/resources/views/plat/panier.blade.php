@@ -29,7 +29,7 @@
                           @endphp
                           @foreach ($user->plats as $plat)
                             @php
-                              $platExQ = DB::table('plat_user')->where("plat_id", "=", $plat->id)->first();
+                              $platExQ = DB::table('plat_user')->where("plat_id", "=", $plat->id)->where("user_id", "=", auth()->user()->id)->first();
                               $prixTotal += $plat->prix*$platExQ->quantite;
                             @endphp
                               <tr>
@@ -44,7 +44,7 @@
                                   </ul>
                                 </td>
                                 <td>
-                                  <form action="{{ route('plats.updatePanier', $plat->id) }}" method="post">
+                                  <form action="{{ route('paniers.updatePanier', $plat->id) }}" method="post">
                                       @csrf
                                       <div class="control">
                                         <input class="input" type="number" name="quantite" value="{{$platExQ->quantite}}" min="0" max="5000">
@@ -53,7 +53,7 @@
                                   </form>
                                 </td>
                                 <td>
-                                    <form action="{{ route('plats.destroyPanier', $plat) }}" method="post">
+                                    <form action="{{ route('paniers.destroyPanier', $plat) }}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button class="button is-danger" type="submit">Supprimer</button>
