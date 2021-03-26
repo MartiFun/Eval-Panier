@@ -141,7 +141,6 @@ class PlatController extends Controller
       return view('plat.edit', compact('plat', 'types', 'vegetariens', 'ingredients'));
     }
 
-
     public function update(PlatRequest $platRequest, Plat $plat)
     {
       // $plat->update($platRequest->all());
@@ -151,10 +150,14 @@ class PlatController extends Controller
       // return redirect()->back()->with('info', 'Le plat a bien été modifié');
     }
 
-
     public function destroy(Plat $plat)
     {
+      $plat = Plat::all()->where("id", "=", $plat->id)->first();
+      foreach ($plat->ingredients as $ingredient) {
+        $plat->ingredients()->detach($ingredient->id);
+      }
       $plat->delete();
       return back()->with('info', 'Le plat a bien été supprimé dans la base de données.');
     }
+
 }
