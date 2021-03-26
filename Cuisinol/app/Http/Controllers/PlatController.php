@@ -113,9 +113,11 @@ class PlatController extends Controller
 
     public function updatePanier(Plat $plat)
     {
-      dd(request()->all());
-      // dd(Plat::all()->where("id", "=", array_keys(request()->all())[2])->first());
+      $plat = Plat::all()->where("id", "=", array_keys(request()->all())[2])->first();
+      $plat->users()->updateExistingPivot(auth()->user()->id , ['quantite' => intval(request()->quantite)]);
+      return redirect()->back()->with('info', 'Le plat a bien été ajouté au panier');
     }
+
 
     public function showPanier()
     {
@@ -142,11 +144,11 @@ class PlatController extends Controller
 
     public function update(PlatRequest $platRequest, Plat $plat)
     {
-      $plat->update($platRequest->all());
-      $plat->ingredients()->sync($platRequest->ingrs);
-      $plat->types()->sync($platRequest->type_id);
-      $plat->vegetariens()->sync($platRequest->vegetarien_id);
-      return redirect()->back()->with('info', 'Le plat a bien été modifié');
+      // $plat->update($platRequest->all());
+      // $plat->ingredients()->sync($platRequest->ingrs);
+      // $plat->types()->sync($platRequest->type_id);
+      // $plat->vegetariens()->sync($platRequest->vegetarien_id);
+      // return redirect()->back()->with('info', 'Le plat a bien été modifié');
     }
 
 

@@ -9,7 +9,7 @@
             <div class="content">
                 <form action="{{ route('plats.update', $plat->id) }}" method="POST">
                     @csrf
-                    @method('put')
+                    @method('POST')
                     <div class="field">
                         <label class="label">Nom</label>
                         <div class="control">

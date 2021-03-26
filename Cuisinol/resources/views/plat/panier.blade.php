@@ -24,9 +24,13 @@
                     </thead>
                     <tbody>
                         @foreach($users as $user)
+                          @php
+                            $prixTotal = 0;
+                          @endphp
                           @foreach ($user->plats as $plat)
                             @php
                               $platExQ = DB::table('plat_user')->where("plat_id", "=", $plat->id)->first();
+                              $prixTotal += $plat->prix*$platExQ->quantite;
                             @endphp
                               <tr>
                                 <td>{{ $plat->id }}</td>
@@ -57,6 +61,7 @@
                                 </td>
                             </tr>
                           @endforeach
+                          <h2>Total : {{ $prixTotal }}$</h2>
                         @endforeach
                     </tbody>
                 </table>
