@@ -31,4 +31,9 @@ class Plat extends Model
       return $this->belongsToMany(User::class);
     }
 
+    public function commandes()
+    {
+      return $this->belongsToMany(Commande::class);
+    }
+
 }

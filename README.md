@@ -20,4 +20,7 @@ $php artisan serve
 # 7 plats sont crée de base
 
 # un compte admin existe avec comme email 'toto@fun.fr' et mdp 'password'
-# un admin n'a pas accès au panier
+# un admin n'a pas accès au panier. Il peut creer des plats, les supprimer, créer des ingredients, type et types de nouriture.
+
+# la Modification de plat ne fonctionne pas.
+# les tables pour l'historique de commandes sont crée tout comme les relation mais j'ai pas eu le temp d'en faire usage
