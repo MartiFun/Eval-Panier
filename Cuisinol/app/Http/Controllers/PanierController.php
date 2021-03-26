@@ -11,12 +11,13 @@ use Illuminate\Support\Facades\DB;
 class PanierController extends Controller
 {
 
-     public function index()
-     {
-       $query = User::query()->where('id', '=', ''.auth()->user()->id.'');
-       $users = $query->with('plats')->get();
-       return view('plat.panier', compact('users'));
-     }
+    //affiche le panier
+    public function index()
+    {
+     $query = User::query()->where('id', '=', ''.auth()->user()->id.'');
+     $users = $query->with('plats')->get();
+     return view('plat.panier', compact('users'));
+    }
 
     //ajoute un plat au panier
     public function store(Plat $plat)
@@ -26,10 +27,11 @@ class PanierController extends Controller
       $users = $query->with('plats')->get();
       $exist = false;
 
+      //verifie si le plat ajouté existe deja dans le panier de l'utilisateur
       foreach ($users[0]->plats as $platEx) {
         if ($platEx->id == $plat->id) {
+          //si il existe alors juste augmenté la quantite dans le panier
           $platExQ = DB::table('plat_user')->where("plat_id", "=", $plat->id)->first();
-          // dd($platExQ->quantite);
           $exist = true;
           $plat->users()->updateExistingPivot(auth()->user()->id , ['quantite' => intval($platExQ->quantite)+1]);
         }

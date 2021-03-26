@@ -100,9 +100,9 @@ class PlatController extends Controller
       return view('plat.edit', compact('plat', 'types', 'vegetariens', 'ingredients'));
     }
 
+    //modifie un plat
     public function updatePlat(PlatRequest $platRequest, Plat $plat)
     {
-      dd($platRequest);
       // $plat->update($platRequest->all());
       // $plat->ingredients()->sync($platRequest->ingrs);
       // $plat->types()->sync($platRequest->type_id);
@@ -110,9 +110,11 @@ class PlatController extends Controller
       // return redirect()->back()->with('info', 'Le plat a bien été modifié');
     }
 
+    //supprime un plat
     public function destroy(Plat $plat)
     {
       $plat = Plat::all()->where("id", "=", $plat->id)->first();
+      //supprime les relations du plat avec ses ingredients
       foreach ($plat->ingredients as $ingredient) {
         $plat->ingredients()->detach($ingredient->id);
       }
@@ -120,6 +122,7 @@ class PlatController extends Controller
       return back()->with('info', 'Le plat a bien été supprimé dans la base de données.');
     }
 
+    //enregistre un ingredient en bdd
     public function storeIngredient(Request $request)
     {
       $request->validate([
@@ -129,6 +132,7 @@ class PlatController extends Controller
       return back()->with('info', 'L\'ingredient a bien été ajouté dans la base de données.');
     }
 
+    //enregistre un type en bdd
     public function storeType(Request $request)
     {
       $request->validate([
@@ -138,6 +142,7 @@ class PlatController extends Controller
       return back()->with('info', 'Le type de plat a bien été ajouté dans la base de données.');
     }
 
+    //enregistre un type de nouriture en bdd
     public function storeVegetarien(Request $request)
     {
       $request->validate([
